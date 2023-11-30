@@ -8,7 +8,7 @@ class MovieRepository(private val movieDataSource: MovieDataSource) {
 
     suspend fun getMovies() : Resource<List<Movie>> {
         return try {
-            Resource.Success(movieDataSource.getMoviesList().movies)
+            Resource.Success(data = movieDataSource.getMoviesList().results)
         }catch (ex: Exception){
             Resource.Error(message = ex.message.toString())
         }
