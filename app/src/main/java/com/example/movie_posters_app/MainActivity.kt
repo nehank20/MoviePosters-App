@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.movie_posters_app.navigation.MovieNavigation
 import com.example.movie_posters_app.ui.theme.Movie_PostersAppTheme
 import com.example.movie_posters_app.ui_layer.MovieListScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MovieListScreen()
+                    val navController = rememberNavController()
+                    MovieNavigation(navController)
                 }
             }
         }

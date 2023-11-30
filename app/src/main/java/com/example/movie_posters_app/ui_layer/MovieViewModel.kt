@@ -12,21 +12,21 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieViewModel @Inject constructor(private val repository: MovieRepository) : ViewModel() {
 
-    val movieList = mutableStateOf(MutableStateHolder())
+    val movieList = mutableStateOf(MutableMovieStateHolder())
 
     init {
-        movieList.value = MutableStateHolder(isLoading = true)
+        movieList.value = MutableMovieStateHolder(isLoading = true)
         getMovies()
     }
 
     private fun getMovies() = viewModelScope.launch {
         when (val result = repository.getMovies()) {
             is Resource.Success -> {
-                movieList.value  = MutableStateHolder(data = result.data)
+                movieList.value  = MutableMovieStateHolder(data = result.data)
             }
 
             is Resource.Error -> {
-                movieList.value = MutableStateHolder(error = result.message.toString())
+                movieList.value = MutableMovieStateHolder(error = result.message.toString())
             }
 
             else -> {

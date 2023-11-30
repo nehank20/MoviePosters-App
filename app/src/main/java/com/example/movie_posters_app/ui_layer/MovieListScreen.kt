@@ -1,5 +1,6 @@
 package com.example.movie_posters_app.ui_layer
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,7 +16,7 @@ import coil.compose.AsyncImage
 import com.example.movie_posters_app.model.Movie
 
 @Composable
-fun MovieListScreen(viewModel: MovieViewModel = hiltViewModel()) {
+fun MovieListScreen(viewModel: MovieViewModel = hiltViewModel(), onMovieClicked : (String) -> Unit) {
 
     val result = viewModel.movieList.value
 
@@ -34,7 +35,9 @@ fun MovieListScreen(viewModel: MovieViewModel = hiltViewModel()) {
     result.data?.let {
         LazyColumn {
             items(result.data!!) {
-                MovieItem(it)
+                MovieItem(it){
+                    onMovieClicked(it.id.toString())
+                }
             }
         }
     }
@@ -42,12 +45,14 @@ fun MovieListScreen(viewModel: MovieViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun MovieItem(it: Movie) {
+fun MovieItem(it: Movie, onMovieClicked : () -> Unit) {
     AsyncImage(
         model = "https://image.tmdb.org/t/p/w500/${it.poster_path}", contentDescription = null,
         modifier = Modifier
             .fillMaxWidth()
-            .height(220.dp)
+            .height(220.dp).clickable {
+                onMovieClicked()
+            }
             .padding(vertical = 4.dp), contentScale = ContentScale.Crop
     )
 }
